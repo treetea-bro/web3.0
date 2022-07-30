@@ -83,6 +83,17 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
+  const removeAllTransactions = async () => {
+    try {
+      const transactionContract = getEthereumContract();
+      const transactionHash = await transactionContract.removeAllTransactions();
+      await transactionHash.wait();
+      setTransactionCount(0);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const checkIfTransactionsExist = async () => {
     try {
       const transactionContract = getEthereumContract();
@@ -139,16 +150,17 @@ export const TransactionProvider = ({ children }) => {
       );
 
       setIsLoading(true);
-      console.log(`Loading - ${transactionHash.hash}`);
+      // console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
       setIsLoading(false);
-      console.log(`Success - ${transactionHash.hash}`);
+      // console.log(`Success - ${transactionHash.hash}`);
 
       const transactionCount = await transactionContract.getTransactionCount();
       setTransactionCount(transactionCount.toNumber());
-
-      location.reload();
     } catch (error) {
+      if (error.code == -32602) {
+        alert('Please input the "Address To" crrectly');
+      }
       console.log(error);
 
       throw new Error("No ethereum object.");
@@ -158,7 +170,7 @@ export const TransactionProvider = ({ children }) => {
   useEffect(() => {
     checkIfWalletIsConnected();
     checkIfTransactionsExist();
-  }, []);
+  }, [transactionCount]);
 
   return (
     <TransactionContext.Provider
@@ -171,6 +183,7 @@ export const TransactionProvider = ({ children }) => {
         sendTransaction,
         transactions,
         isLoading,
+        removeAllTransactions,
       }}
     >
       {children}

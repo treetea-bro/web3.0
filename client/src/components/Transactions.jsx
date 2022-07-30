@@ -2,7 +2,6 @@ import { useContext } from "react";
 
 import { TransactionContext } from "../context/TransactionContext";
 
-import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
 import useFetch from "../hooks/useFetch";
 
@@ -70,15 +69,24 @@ const TransactionCard = ({
 };
 
 const Transactions = () => {
-  const { currentAccount, transactions } = useContext(TransactionContext);
+  const { currentAccount, transactions, removeAllTransactions } =
+    useContext(TransactionContext);
 
   return (
     <div className="flex w-full justify-center items-center 2xl:px-20 gradient-bg-transactions">
       <div className="flex flex-col md:p-12 py-12 px-4">
         {currentAccount ? (
-          <h3 className="text-white text-3xl text-center my-2">
-            Latest Transactions
-          </h3>
+          <div className="flex flex-col items-center">
+            <h3 className="text-white text-3xl text-center my-2">
+              Latest Transactions {`(${transactions.length})`}
+            </h3>
+            <button
+              className="text-white bg-[#2952e3] py-2 px-7 mx-4 mt-4 rounded-full cursor-pointer hover:bg-[#2546bd]"
+              onClick={removeAllTransactions}
+            >
+              removeAllTransactions
+            </button>
+          </div>
         ) : (
           <h3 className="text-white text-3xl text-center my-2">
             Connect your account to see the latest transactions
