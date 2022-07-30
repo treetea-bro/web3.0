@@ -30,10 +30,9 @@ const Welcome = () => {
     isLoading,
   } = useContext(TransactionContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     const { addressTo, amount, keyword, message } = formData;
 
-    // e.preventDefault();
     if (!addressTo || !amount || !keyword || !message) return;
 
     sendTransaction();
