@@ -2,7 +2,7 @@ github pages에 프로젝트 배포 하였습니다.
 pages 주소: https://treetea-bro.github.io/web3.0/  
 
 -- Faucet  
-Goerli 테스트넷에 배포하여서 프로젝트 이용 시 Goerli ETH가 필요합니다.  
+스마트컨트렉트를 Goerli 테스트넷에 배포하여서 프로젝트 이용 시 Goerli ETH가 필요합니다.  
 https://goerlifaucet.com/ 에 접속하여서 Alchemy 회원 가입 후 로그인하여서 Goerli ETH를 지급 받아서 사용하시거나 인터넷에서 Goerli faucet을 검색하셔서 Goerli ETH를 지급 받아주세요.  
   
 -- 설명  
