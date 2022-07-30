@@ -27,7 +27,8 @@ export const TransactionProvider = ({ children }) => {
     keyword: "",
     message: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [removeLoading, setRemoveLoading] = useState(false);
   const [transactionCount, setTransactionCount] = useState(
     localStorage.getItem("transactionCount")
   );
@@ -87,7 +88,11 @@ export const TransactionProvider = ({ children }) => {
     try {
       const transactionContract = getEthereumContract();
       const transactionHash = await transactionContract.removeAllTransactions();
+
+      setRemoveLoading(true);
       await transactionHash.wait();
+      setRemoveLoading(false);
+
       setTransactionCount(0);
     } catch (error) {
       console.log(error);
@@ -149,10 +154,10 @@ export const TransactionProvider = ({ children }) => {
         keyword
       );
 
-      setIsLoading(true);
+      setSendLoading(true);
       // console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
-      setIsLoading(false);
+      setSendLoading(false);
       // console.log(`Success - ${transactionHash.hash}`);
 
       const transactionCount = await transactionContract.getTransactionCount();
@@ -182,7 +187,8 @@ export const TransactionProvider = ({ children }) => {
         handleChange,
         sendTransaction,
         transactions,
-        isLoading,
+        sendLoading,
+        removeLoading,
         removeAllTransactions,
       }}
     >

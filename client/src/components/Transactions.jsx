@@ -4,6 +4,7 @@ import { TransactionContext } from "../context/TransactionContext";
 
 import { shortenAddress } from "../utils/shortenAddress";
 import useFetch from "../hooks/useFetch";
+import Loader from "./Loader";
 
 const TransactionCard = ({
   addressTo,
@@ -69,7 +70,7 @@ const TransactionCard = ({
 };
 
 const Transactions = () => {
-  const { currentAccount, transactions, removeAllTransactions } =
+  const { currentAccount, transactions, removeAllTransactions, removeLoading } =
     useContext(TransactionContext);
 
   return (
@@ -80,12 +81,16 @@ const Transactions = () => {
             <h3 className="text-white text-3xl text-center my-2">
               Latest Transactions {`(${transactions.length})`}
             </h3>
-            <button
-              className="text-white bg-[#2952e3] py-2 px-7 mx-4 mt-4 rounded-full cursor-pointer hover:bg-[#2546bd]"
-              onClick={removeAllTransactions}
-            >
-              removeAllTransactions
-            </button>
+            {removeLoading ? (
+              <Loader />
+            ) : (
+              <button
+                className="text-white bg-[#2952e3] py-2 px-7 mx-4 mt-4 rounded-full cursor-pointer hover:bg-[#2546bd]"
+                onClick={removeAllTransactions}
+              >
+                removeAllTransactions
+              </button>
+            )}
           </div>
         ) : (
           <h3 className="text-white text-3xl text-center my-2">
