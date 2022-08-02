@@ -18,11 +18,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-          
-      - name: Generate Environment Variables File for Production
-        run: echo "VITE_GIPHY_API=$VITE_GIPHY_API" >> .env.production
-        env:
-          VITE_GIPHY_API: ${{ secrets.VITE_GIPHY_API }}
 
       - name: Install dependencies
         run: npm install
