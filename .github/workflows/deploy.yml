@@ -20,7 +20,7 @@ jobs:
           node-version: 16
 
       - name: Generate Environment Variables File for Production
-        run: echo REACT_APP_DOMAIN=${{ secrets.VITE_GIPHY_API }} >> .env
+        run: echo VITE_GIPHY_API=${{ secrets.VITE_GIPHY_API }} >> .env
 
       - name: Install dependencies
         run: npm install
