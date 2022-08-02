@@ -27,7 +27,8 @@ export const TransactionProvider = ({ children }) => {
     keyword: "",
     message: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [removeLoading, setRemoveLoading] = useState(false);
   const [transactionCount, setTransactionCount] = useState(
     localStorage.getItem("transactionCount")
   );
@@ -78,6 +79,21 @@ export const TransactionProvider = ({ children }) => {
       );
 
       setTransactions(structuredTransactions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeAllTransactions = async () => {
+    try {
+      const transactionContract = getEthereumContract();
+      const transactionHash = await transactionContract.removeAllTransactions();
+
+      setRemoveLoading(true);
+      await transactionHash.wait();
+      setRemoveLoading(false);
+
+      setTransactionCount(0);
     } catch (error) {
       console.log(error);
     }
@@ -138,17 +154,18 @@ export const TransactionProvider = ({ children }) => {
         keyword
       );
 
-      setIsLoading(true);
-      console.log(`Loading - ${transactionHash.hash}`);
+      setSendLoading(true);
+      // console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
-      setIsLoading(false);
-      console.log(`Success - ${transactionHash.hash}`);
+      setSendLoading(false);
+      // console.log(`Success - ${transactionHash.hash}`);
 
       const transactionCount = await transactionContract.getTransactionCount();
       setTransactionCount(transactionCount.toNumber());
-
-      location.reload();
     } catch (error) {
+      if (error.code == -32602) {
+        alert('Please input the "Address To" crrectly');
+      }
       console.log(error);
 
       throw new Error("No ethereum object.");
@@ -158,7 +175,7 @@ export const TransactionProvider = ({ children }) => {
   useEffect(() => {
     checkIfWalletIsConnected();
     checkIfTransactionsExist();
-  }, []);
+  }, [currentAccount, transactionCount]);
 
   return (
     <TransactionContext.Provider
@@ -170,7 +187,9 @@ export const TransactionProvider = ({ children }) => {
         handleChange,
         sendTransaction,
         transactions,
-        isLoading,
+        sendLoading,
+        removeLoading,
+        removeAllTransactions,
       }}
     >
       {children}
