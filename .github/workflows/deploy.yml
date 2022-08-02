@@ -19,9 +19,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Generate Environment Variables File for Production
-        run: echo VITE_GIPHY_API=${{ secrets.VITE_GIPHY_API }} >> .env
-
       - name: Install dependencies
         run: npm install
         working-directory: ./client
@@ -29,6 +26,8 @@ jobs:
       - name: Build project
         run: npm run build
         working-directory: ./client
+        env:
+          VITE_GIPHY_API: ${{ secrets.VITE_GIPHY_API }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
