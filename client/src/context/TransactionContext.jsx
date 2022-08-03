@@ -107,7 +107,7 @@ export const TransactionProvider = ({ children }) => {
       window.localStorage.setItem("transactionCount", transactionCount);
     } catch (error) {
       console.log(error);
-
+      alert("메타마스크에서 Goerli 테스트넷으로 변경하여 주세요.");
       throw new Error("No ethereum object.");
     }
   };
@@ -121,6 +121,8 @@ export const TransactionProvider = ({ children }) => {
       });
 
       setCurrentAccount(accounts[0]);
+
+      getAllTransactions();
     } catch (error) {
       console.log(error);
 
@@ -174,8 +176,11 @@ export const TransactionProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
+  }, []);
+
+  useEffect(() => {
     checkIfTransactionsExist();
-  }, [currentAccount, transactionCount]);
+  }, [transactionCount]);
 
   return (
     <TransactionContext.Provider
