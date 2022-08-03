@@ -6,6 +6,7 @@ pages 주소: https://treetea-bro.github.io/web3.0/
 https://goerlifaucet.com/ 에 접속하여서 Alchemy 회원 가입 후 로그인하여서 Goerli ETH를 지급 받아서 사용하시거나 인터넷에서 Goerli faucet을 검색하셔서 Goerli ETH를 지급 받아주세요.  
   
 -- 설명  
+우선 메타마스크에서 Goerli 테스트넷으로 우선 변경하여 주세요.  
 사이트에 접속하시면 이더리움 카드 밑 부분에 정보를 입력하는 부분이 있습니다.  
   
 Address To 부분에는 ETH를 전송 받을 사람의 지갑 주소를 입력하여 주시고,
